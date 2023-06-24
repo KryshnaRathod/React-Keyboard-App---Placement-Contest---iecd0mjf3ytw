@@ -5,29 +5,31 @@ const keys = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
 
 const App = () => {
 
-  const [previewText, setPreviewText] = useState("");
+  
+   const [previewText, setPreviewText] = useState('');
+  const [quote, setQuote] = useState('');
 
   useEffect(() => {
-    if (previewText.toLowerCase() === "forty two") {
+    if (previewText.toLowerCase() === 'forty two') {
       fetchQuote();
+    } else {
+      setQuote('');
     }
   }, [previewText]);
 
   const fetchQuote = async () => {
     try {
-      const response = await fetch("https://api.quotable.io/random");
+      const response = await fetch('https://api.quotable.io/random');
       const data = await response.json();
-      // Assuming the API response contains a 'content' property for the quote
-      const quote = data.content;
-      // Update the preview text and set the quote
-      setPreviewText(quote);
+      setQuote(data.content);
     } catch (error) {
-      console.log("Error fetching quote:", error);
+      console.log('Error fetching quote:', error);
     }
   };
 
-  const handleKeyPress = (key) => {
-    const newPreviewText = previewText + key;
+  const handleKeyPress = (event) => {
+    const keyPressed = event.target.id.split('-')[1];
+    const newPreviewText = previewText + keyPressed;
     setPreviewText(newPreviewText);
   };
 
@@ -38,13 +40,14 @@ const App = () => {
         {keys.map((key) => (
           <button
             key={key}
-            id={key === " " ? `key-space` : `key-${key}`}
-            onClick={() => handleKeyPress(key)}
+            id={key === ' ' ? 'key-space' : `key-${key}`}
+            onClick={handleKeyPress}
           >
-            {key === " " ? "Space" : key.toUpperCase()}
+            {key === ' ' ? 'Space' : key.toUpperCase()}
           </button>
         ))}
       </div>
+      {quote && <div className="quote">{quote}</div>}
     </div>
   );
 };

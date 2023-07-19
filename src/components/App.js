@@ -1,6 +1,4 @@
-
-   
-      import "../styles/App.css";
+import "../styles/App.css";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -44,4 +42,8 @@ const App = () => {
 
 
 export default App;
+  
+ 
+
+
 
